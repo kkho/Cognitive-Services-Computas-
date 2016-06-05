@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Computas.CognitiveServices.Test.Helper;
 using Microsoft.ProjectOxford.Vision;
 using Microsoft.ProjectOxford.Vision.Contract;
 using Plugin.Media;
 using Xamarin.Forms;
+using Plugin.Media.Abstractions;
 
 namespace Computas.CognitiveServices.Test.ViewModel
 {
@@ -15,61 +19,85 @@ namespace Computas.CognitiveServices.Test.ViewModel
 	{
 		private VisionServiceClient visionServiceClient;
 
+		private MediaFile tempFileWorking;
+
 		public VisionApiViewModel(INavigation navigation) : base(navigation)
 		{
 			visionServiceClient = new VisionServiceClient(App.VisionApiKey);
 			SetupVisionApiUtilities();
 		}
 
-		private async void SetupVisionApiUtilities()
+		private ICommand TakePhotoCommand { get; set; }
+		private ICommand PickPhotoCommand { get; set; }
+
+		private void SetupVisionApiUtilities()
 		{
-
-
-			if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+			TakePhotoCommand = new Command(async () =>
 			{
-				// Supply media options for saving our photo after it's taken.
-				var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
+				if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
 				{
-					Directory = "CognitiveTest",
-					Name = $"{DateTime.UtcNow}.jpg"
-				};
+					// Supply media options for saving our photo after it's taken.
+					var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
+					{
+						Directory = "CognitiveTest",
+						Name = $"{DateTime.UtcNow}.jpg"
+					};
 
-				var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
-				if (file != null)
-				{
-					// Do something with the photo here
+					var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
+					if (file != null)
+					{
+						tempFileWorking = file;
+						// Do something with the photo here
+						var analysisResult = await UploadAndDescribeImage(file);
+					}
 				}
+			});
 
-			}
+			PickPhotoCommand = new Command(async () =>
+			{
+				if (CrossMedia.Current.IsPickPhotoSupported)
+				{
+					tempFileWorking = await CrossMedia.Current.PickPhotoAsync();
+				}
+			});
 		}
 
-		private async Task<AnalysisResult> UploadAndDescribeImage(string imageFilePath)
+		public async Task PickdVisionService(int serviceType)
 		{
-
-			using (Stream imageFileStream = File.OpenRead(imageFilePath))
+			switch (serviceType)
 			{
-				// Upload and image and request three descriptions
-				AnalysisResult analysisResult = await visionServiceClient.DescribeAsync(imageFileStream, 3);
-				return analysisResult;
+				case (int)VisionApiServices.DescribeImage:
+					AnalysisResult analyzeDescriptionImage  = await UploadAndDescribeImage(tempFileWorking);
+
+
+
+					break;
+				default:
+					break;
 			}
+
+			IsBusy = false;
 		}
 
-		private async Task<OcrResults> UploadAndRecognizeImage(string imageFilePath, string language)
+		private async Task<AnalysisResult> UploadAndDescribeImage(MediaFile file)
 		{
-			using (Stream imageFileStream = File.OpenRead(imageFilePath))
-			{
-				OcrResults ocrResult = await visionServiceClient.RecognizeTextAsync(imageFileStream, language);
-				return ocrResult;
-			}
+			IsBusy = true;
+			AnalysisResult analysisResult = await visionServiceClient.DescribeAsync(file.GetStream(), 3);
+			return analysisResult;
 		}
 
-		private async Task<AnalysisInDomainResult> UploadAndAnalyzeInDomainImage(string imageFilePath, Model domainModel)
+
+		private async Task<OcrResults> UploadAndRecognizeImage(MediaFile file, string langCode)
 		{
-			using (Stream imageFileStream = File.OpenRead(imageFilePath))
-			{
-				AnalysisInDomainResult analysisResult = await visionServiceClient.AnalyzeImageInDomainAsync(imageFileStream, domainModel);
-				return analysisResult;
-			}
+			OcrResults ocrResult = await visionServiceClient.RecognizeTextAsync(file.GetStream(), langCode);
+			return ocrResult;
+		}
+
+		private async Task<AnalysisInDomainResult> UploadAndAnalyzeInDomainImage(MediaFile file, Model domainModel)
+		{
+			AnalysisInDomainResult analysisResult =
+				await visionServiceClient.AnalyzeImageInDomainAsync(file.GetStream(), domainModel);
+			return analysisResult;
 		}
 
 		private async Task<AnalysisInDomainResult> AnalyzeInDomainUrl(string imageUrl, Model domainModel)
@@ -78,29 +106,16 @@ namespace Computas.CognitiveServices.Test.ViewModel
 			return analysisResult;
 		}
 
-		private async Task<AnalysisResult> UploadAndGetTagsForImage(string imageFilePath)
+		private async Task<AnalysisResult> UploadAndGetTagsForImage(MediaFile file)
 		{
-			using (Stream imageFileStream = File.OpenRead(imageFilePath))
-			{
-				AnalysisResult analysisResult = await visionServiceClient.GetTagsAsync(imageFileStream);
-				return analysisResult;
-			}
+			AnalysisResult analysisResult = await visionServiceClient.GetTagsAsync(file.GetStream());
+			return analysisResult;
 		}
+
 		private async Task<byte[]> ThumbnailUrl(string imageUrl, int width, int height, bool smartCropping)
 		{
 			byte[] thumbnail = await visionServiceClient.GetThumbnailAsync(imageUrl, width, height, smartCropping);
 			return thumbnail;
-		}
-
-
-
-		private async void OpenImageGallery()
-		{
-			if (CrossMedia.Current.IsPickPhotoSupported)
-			{
-				var photo = await CrossMedia.Current.PickPhotoAsync();
-				// do something with the vision api here;
-			}
 		}
 	}
 }

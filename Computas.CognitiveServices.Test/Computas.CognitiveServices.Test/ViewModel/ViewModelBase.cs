@@ -6,11 +6,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Computas.CognitiveServices.Test.Annotations;
+using MvvmHelpers;
 using Xamarin.Forms;
 
 namespace Computas.CognitiveServices.Test.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : BaseViewModel
     {
 
 		protected INavigation Navigation { get; }
@@ -24,14 +25,6 @@ namespace Computas.CognitiveServices.Test.ViewModel
         {
             // DependencyService.Register<>();
             
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

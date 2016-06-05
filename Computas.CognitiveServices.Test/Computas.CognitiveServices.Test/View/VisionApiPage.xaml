@@ -1,6 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Computas.CognitiveServices.Test.View.VisionApiPage">
-  <Label Text="dscdsfdgrf" VerticalOptions="Center" HorizontalOptions="Center" />
+             x:Class="Computas.CognitiveServices.Test.View.VisionApiPage"
+             BackgroundColor="{DynamicResource WindowBackground}">
+	<ContentPage.Content>
+		<StackLayout>
+			<Button x:Name="TakePhoto" Text="Take Photo" Command="{Binding TakePhotoCommand}" BackgroundColor="{DynamicResource Accent}" />
+			<Button x:Name="PickPhoto" Text="Pick Photo" Command="{Binding PickPhotoCommand}" BackgroundColor="{DynamicResource Accent}" />
+
+			<ActivityIndicator IsRunning="{Binding IsBusy}">
+				<ActivityIndicator.Color>
+					<OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
+				</ActivityIndicator.Color>
+			</ActivityIndicator>
+			<Label Text="Loading Result"
+			       HorizontalOptions="Center" />
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>
