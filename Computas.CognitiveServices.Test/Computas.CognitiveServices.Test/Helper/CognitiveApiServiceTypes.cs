@@ -10,7 +10,6 @@ namespace Computas.CognitiveServices.Test.Helper
 	{
 		DescribeImage,
 		RecognizeImage,
-		AnalyzeInDomainImage,
 		GetTags
 	}
 }

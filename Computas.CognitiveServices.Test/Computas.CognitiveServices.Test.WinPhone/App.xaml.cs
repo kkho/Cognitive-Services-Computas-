@@ -63,9 +63,7 @@ namespace Computas.CognitiveServices.Test.WinPhone
 
                 // TODO: change this value to a cache size that is appropriate for your application
                 rootFrame.CacheSize = 1;
-
-                Xamarin.Forms.Forms.Init(e);
-				Plugin.Media.MediaImplementation.OnFilesPicked(e);
+				Xamarin.Forms.Forms.Init(e);
 
 				if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -100,8 +98,8 @@ namespace Computas.CognitiveServices.Test.WinPhone
                 }
             }
 
-            // Ensure the current window is active
-            Window.Current.Activate();
+			// Ensure the current window is active
+			Window.Current.Activate();
         }
 
         /// <summary>
@@ -130,5 +128,13 @@ namespace Computas.CognitiveServices.Test.WinPhone
             // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
-    }
+
+		protected override void OnActivated(IActivatedEventArgs args)
+		{
+#if WINDOWS_PHONE_APP
+			Plugin.Media.MediaImplementation.OnFilesPicked(args);
+#endif
+			base.OnActivated(args);
+		}
+	}
 }

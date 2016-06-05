@@ -2528,11 +2528,14 @@ namespace Computas.CognitiveServices.Test.Droid
 			// aapt resource value: 0x7f07009d
 			public const int nav_emotion = 2131165341;
 			
+			// aapt resource value: 0x7f07009e
+			public const int nav_face = 2131165342;
+			
 			// aapt resource value: 0x7f07009b
 			public const int nav_section_main = 2131165339;
 			
-			// aapt resource value: 0x7f07009e
-			public const int nav_speech = 2131165342;
+			// aapt resource value: 0x7f07009f
+			public const int nav_speech = 2131165343;
 			
 			// aapt resource value: 0x7f07008b
 			public const int nav_view = 2131165323;

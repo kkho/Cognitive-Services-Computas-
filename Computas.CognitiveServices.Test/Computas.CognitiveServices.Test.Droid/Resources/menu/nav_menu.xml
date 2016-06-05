@@ -11,6 +11,9 @@
 			android:id="@+id/nav_emotion"
 			android:title="Emotion API" />
 		<item
+			android:id="@+id/nav_face"
+			android:title="Face API" />
+		<item
 			android:id="@+id/nav_speech"
 			android:title="Speech" />
 

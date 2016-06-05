@@ -14,7 +14,7 @@ namespace Computas.CognitiveServices.Test.View
 		{
 			NavigationPage.SetHasNavigationBar(this, false);
 			Children.Add(new CXCognitiveNavigationPage(new VisionApiPage()));
-			// Children.Add(new CXCognitiveNavigationPage(new EmotionApiPage()));;
+			Children.Add(new CXCognitiveNavigationPage(new EmotionApiPage()));;
 		}
 
 		public void NavigateAsync(AppPage menuId)
@@ -26,6 +26,12 @@ namespace Computas.CognitiveServices.Test.View
 					break;
 				case (int) AppPage.Emotion:
 					CurrentPage = Children[1];
+					break;
+				case (int)AppPage.Face:
+					CurrentPage = Children[2];
+					break;
+				case (int)AppPage.Speech:
+					CurrentPage = Children[3];
 					break;
 			}
 		}

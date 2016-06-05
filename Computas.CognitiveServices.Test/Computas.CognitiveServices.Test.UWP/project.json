@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "FormsToolkit": "1.1.14",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Refractored.MvvmHelpers": "1.0.1",
     "Xam.Plugin.Media": "2.3.0",

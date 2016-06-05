@@ -15,6 +15,7 @@ namespace Computas.CognitiveServices.Test.View
 		Dictionary<AppPage, Page> pages;
 		MenuPageUWP menu;
 		public static bool IsDesktop { get; set; }
+
 		public RootPageWindows()
 		{
 			//MasterBehavior = MasterBehavior.Popover;
@@ -22,8 +23,10 @@ namespace Computas.CognitiveServices.Test.View
 
 			var items = new ObservableCollection<Computas.CognitiveServices.Test.Helper.MenuItem>
 			{
-				new Computas.CognitiveServices.Test.Helper.MenuItem { Name = "Vision", Page = AppPage.Vision },
-				new Computas.CognitiveServices.Test.Helper.MenuItem { Name = "Emotion", Page = AppPage.Emotion }
+				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Vision", Page = AppPage.Vision},
+				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Emotion", Page = AppPage.Emotion},
+				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Face", Page = AppPage.Emotion},
+				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Speech", Page = AppPage.Emotion}
 			};
 
 			menu = new MenuPageUWP();
@@ -37,17 +40,16 @@ namespace Computas.CognitiveServices.Test.View
 
 				Device.BeginInvokeOnMainThread(() =>
 				{
-					NavigateAsync(((Computas.CognitiveServices.Test.Helper.MenuItem)menu.MenuList.SelectedItem).Page);
+					NavigateAsync(((Computas.CognitiveServices.Test.Helper.MenuItem) menu.MenuList.SelectedItem).Page);
 					if (!IsDesktop)
 						IsPresented = false;
 				});
 			};
 
 			Master = menu;
-			NavigateAsync((int)AppPage.Vision);
+			NavigateAsync((int) AppPage.Vision);
 			Title = "Cognitive Services";
 		}
-
 
 
 		public void NavigateAsync(AppPage menuId)
@@ -61,7 +63,7 @@ namespace Computas.CognitiveServices.Test.View
 					case AppPage.Vision: //Feed
 						pages.Add(menuId, new CXCognitiveNavigationPage(new VisionApiPage()));
 						break;
-					case AppPage.Emotion://sessions
+					case AppPage.Emotion: //sessions
 						//pages.Add(menuId, new CXCognitiveNavigationPage(new SessionsPage()));
 						break;
 				}

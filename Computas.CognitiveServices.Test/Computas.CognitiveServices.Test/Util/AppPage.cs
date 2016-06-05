@@ -14,6 +14,8 @@ namespace Computas.CognitiveServices.Test.Util
 	public enum AppPage
 	{
 		Vision, 
-		Emotion
+		Emotion,
+		Face,
+		Speech
 	}
 }
