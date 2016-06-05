@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<group android:id="@+id/nav_section_main"
+	       android:checkableBehavior="single">
+		<item
+			android:id="@+id/nav_vision"
+			android:title="Vision API" />
+		<item
+			android:id="@+id/nav_emotion"
+			android:title="Emotion API" />
+		<item
+			android:id="@+id/nav_speech"
+			android:title="Speech" />
+
+	</group>
+</menu>
