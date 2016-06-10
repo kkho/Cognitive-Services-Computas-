@@ -9,7 +9,9 @@ NOTE!
 Get your own API key here:
 
 https://www.microsoft.com/cognitive-services
-Presentation is here: https://github.com/kkho/Cognitive-Services-Computas-/tree/master/presentation/Cognitive Services API_Complete.pptx "
+
+Presentation is here:
+- https://github.com/kkho/Cognitive-Services-Computas-/tree/master/presentation/Cognitive Services API_Complete.pptx 
 
 
 
