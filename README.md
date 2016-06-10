@@ -9,6 +9,7 @@ NOTE!
 Get your own API key here:
 
 https://www.microsoft.com/cognitive-services
+Presentation is here: ![Alt text](https://github.com/kkho/Cognitive-Services-Computas-/tree/master/presentation/Cognitive Services API_Complete.pptx "Presentation")
 
 
 
