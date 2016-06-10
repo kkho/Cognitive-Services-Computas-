@@ -13,24 +13,26 @@
 			<Button x:Name="PickPhoto" Text="Pick Photo" Command="{Binding PickPhotoCommand}"
 			        BackgroundColor="{DynamicResource Accent}"
 			        TextColor="White" />
-
-			<ActivityIndicator IsRunning="{Binding IsBusy}">
-				<ActivityIndicator.Color>
-					<OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
-				</ActivityIndicator.Color>
-			</ActivityIndicator>
-			<Label Text="Loading Result"
-			       IsVisible="{Binding IsBusy}"
-			       HorizontalOptions="Center" />
-			<Label x:Name="DescriptionResult" Text="{Binding CaptionResults}"
-			       HorizontalOptions="StartAndExpand"
-			       VerticalOptions="StartAndExpand"
-			       TextColor="{DynamicResource Accent}" />
-			<Label x:Name="TagResult" Text="{Binding TagResults}"
-			       HorizontalOptions="StartAndExpand"
-			       VerticalOptions="StartAndExpand"
-			       TextColor="{DynamicResource Accent}" />
-
+				<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}">
+					<ActivityIndicator.Color>
+						<OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
+					</ActivityIndicator.Color>
+				</ActivityIndicator>
+				<Label Text="Loading Result"
+				       IsVisible="{Binding IsBusy}"
+				       HorizontalOptions="Center" />
+				<Label x:Name="DescriptionResult" Text="{Binding VisionMainResults}"
+				       Margin="16"
+				       FontSize="Large"
+				       HorizontalOptions="Start"
+				       VerticalOptions="Start"
+				       TextColor="{DynamicResource Accent}" />
+				<Label x:Name="TagResult" Text="{Binding TagResults}"
+				       Margin="16"
+				       FontSize="Large"
+				       HorizontalOptions="Start"
+				       VerticalOptions="Start"
+				       TextColor="{DynamicResource Accent}" />
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

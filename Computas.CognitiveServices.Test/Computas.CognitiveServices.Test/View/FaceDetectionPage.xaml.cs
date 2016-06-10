@@ -10,20 +10,22 @@ using Xamarin.Forms;
 
 namespace Computas.CognitiveServices.Test.View
 {
-	public partial class EmotionApiPage : ContentPage
+	public partial class FaceDetectionPage : ContentPage
 	{
-		EmotionApiViewModel ViewModel => vm ?? (vm = BindingContext as EmotionApiViewModel);
-		EmotionApiViewModel vm;
-
-		public EmotionApiPage()
+		FaceDetectionViewModel ViewModel => vm ?? (vm = BindingContext as FaceDetectionViewModel);
+		FaceDetectionViewModel vm;
+		public FaceDetectionPage()
 		{
 			InitializeComponent();
-			BindingContext = vm = new EmotionApiViewModel(Navigation);
+
+
 			MessagingService.Current.Subscribe<MessagingServiceAlert>(MessagingKeys.CognitiveServiceErrorMessage,
 				(delegate(IMessagingService service, MessagingServiceAlert alert)
 				{
 					DisplayAlert(alert.Title, alert.Message, alert.Cancel);
 				}));
+
+			BindingContext = vm = new FaceDetectionViewModel(Navigation);
 		}
 	}
 }

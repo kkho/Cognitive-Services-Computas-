@@ -67,7 +67,10 @@ namespace Computas.CognitiveServices.Test.ViewModel
 			if (CrossMedia.Current.IsPickPhotoSupported)
 			{
 				tempFileWorking = await CrossMedia.Current.PickPhotoAsync();
-				CallDisplaySheetOnView();
+				if (tempFileWorking != null)
+				{
+					CallDisplaySheetOnView();
+				}
 			}
 		}
 
@@ -91,6 +94,7 @@ namespace Computas.CognitiveServices.Test.ViewModel
 
 		public async Task PickedVisionService(int serviceType)
 		{
+			bool completed = false;
 			switch (serviceType)
 			{
 				case (int) VisionApiServices.DescribeImage:
@@ -102,20 +106,28 @@ namespace Computas.CognitiveServices.Test.ViewModel
 						TagCollection.ReplaceRange(analyzeDescriptionImage.Description.Tags);
 						WriteCaptionResult();
 						WriteTagResults();
+						completed = true;
 					}
 
 					break;
-				case (int)VisionApiServices.RecognizeImage:
+				case (int) VisionApiServices.RecognizeImage:
 					CultureInfo getCultureInfo = CultureInfo.CurrentCulture;
 					OcrResults ocrResults = await UploadAndRecognizeImage(tempFileWorking, getCultureInfo.Name);
-					if (ocrResults != null)
+					if (ocrResults != null && ocrResults.Regions != null &&
+					    ocrResults.Regions.Any())
 					{
+						FillOCRInformation(ocrResults.Regions);
+						completed = true;
 					}
 					break;
-				case (int)VisionApiServices.GetTags:
+				case (int) VisionApiServices.GetTags:
 					var analysis = await UploadAndGetTagsForImage(tempFileWorking);
-					if (analysis != null)
+					if (analysis != null && analysis.Tags != null && analysis.Tags.Any())
 					{
+						var tagNames = analysis.Tags.Select(t => t.Name).ToList();
+						TagCollection.ReplaceRange(tagNames);
+						WriteTagResults();
+						completed = true;
 					}
 
 					break;
@@ -123,18 +135,52 @@ namespace Computas.CognitiveServices.Test.ViewModel
 					break;
 			}
 
+			if (!completed)
+			{
+				MessagingService.Current.SendMessage<MessagingServiceAlert>(MessagingKeys.CognitiveServiceErrorMessage,
+					new MessagingServiceAlert()
+					{
+						Cancel = "Cancel",
+						Message = "Could not get " +
+						          "data, please check your network",
+						Title = "Error"
+					});
+			}
+
 			IsBusy = false;
 		}
 
-		private string captionResults;
-
-		public string CaptionResults
+		private void FillOCRInformation(IEnumerable<Region> regions)
 		{
-			get { return captionResults; }
+			string words = string.Empty;
+			foreach (var region in regions)
+			{
+				for (var i = 0; i < region.Lines.Count(); i++)
+				{
+					for (var j = 0; j < region.Lines[i].Words.Count(); j++)
+					{
+						words += region.Lines[i].Words[j].Text + " ";
+						if (i == region.Lines[i].Words.Count() - 1)
+						{
+							words += "\n";
+						}
+					}
+				}
+			}
+
+			VisionMainResults = words;
+		}
+
+
+		private string _visionMainResults;
+
+		public string VisionMainResults
+		{
+			get { return _visionMainResults; }
 
 			set
 			{
-				captionResults = value;
+				_visionMainResults = value;
 				OnPropertyChanged();
 			}
 		}
@@ -150,7 +196,7 @@ namespace Computas.CognitiveServices.Test.ViewModel
 					formattedCaption += "\n ";
 			}
 
-			CaptionResults = formattedCaption;
+			VisionMainResults = formattedCaption;
 		}
 
 		private string tagResults;

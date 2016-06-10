@@ -9,5 +9,6 @@ namespace Computas.CognitiveServices.Test.Helper
 	public class MessagingKeys
 	{
 		public const string VisionMessage = "VisionMessage";
+		public const string CognitiveServiceErrorMessage = "CognitiveServiceErrorMessage";
 	}
 }

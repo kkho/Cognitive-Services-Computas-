@@ -26,6 +26,12 @@ namespace Computas.CognitiveServices.Test.View
 					await vm.PickedVisionService(indexOfPickedService);
 				});
 
+			MessagingService.Current.Subscribe<MessagingServiceAlert>(MessagingKeys.CognitiveServiceErrorMessage,
+				(delegate(IMessagingService service, MessagingServiceAlert alert)
+				{
+					DisplayAlert(alert.Title, alert.Message, alert.Cancel);
+				}));
+
 			BindingContext = vm = new VisionApiViewModel(Navigation);
 		}
 	}

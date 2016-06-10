@@ -38,6 +38,9 @@ namespace Computas.CognitiveServices.Test.View
 					case (int) AppPage.Emotion:
 						pages.Add(menuId, new CXCognitiveNavigationPage(new EmotionApiPage()));
 						break;
+					case (int)AppPage.Face:
+						pages.Add(menuId, new CXCognitiveNavigationPage(new FaceDetectionPage()));
+						break;
 					default:
 						break;
 				}

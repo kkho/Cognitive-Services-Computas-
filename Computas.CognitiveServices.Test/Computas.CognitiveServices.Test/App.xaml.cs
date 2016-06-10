@@ -1,16 +1,18 @@
 ﻿using System;
+using Computas.CognitiveServices.Test.Helper;
 using Computas.CognitiveServices.Test.View;
 using Computas.CognitiveServices.Test.ViewModel;
+using FormsToolkit;
 using Xamarin.Forms;
 
 namespace Computas.CognitiveServices.Test
 {
     public partial class App : Application
     {
-	    public static string VisionApiKey = "OWN API KEY";
-	    public static string EmotionApiKey = "OWN API KEY";
-	    public static string SpeechApiKey = "OWN API KEY";
-	    public static string FaceApiKey = "OWN API KEY";
+		public static string VisionApiKey = "OWN API KEY";
+		public static string EmotionApiKey = "OWN API KEY";
+		public static string SpeechApiKey = "OWN API KEY";
+		public static string FaceApiKey = "OWN API KEY";
 
 		public static App current;
 
@@ -46,6 +48,12 @@ namespace Computas.CognitiveServices.Test
 		}
 
 		public INavigation Navigation { get; set; }
+
+		protected override void OnSleep()
+		{
+			MessagingService.Current.Unsubscribe<MessagingServiceChoice>(MessagingKeys.VisionMessage);
+			MessagingService.Current.Unsubscribe<MessagingServiceAlert>(MessagingKeys.CognitiveServiceErrorMessage);
+		}
 
 	}
 }

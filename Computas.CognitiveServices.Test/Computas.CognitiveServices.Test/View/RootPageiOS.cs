@@ -15,6 +15,7 @@ namespace Computas.CognitiveServices.Test.View
 			NavigationPage.SetHasNavigationBar(this, false);
 			Children.Add(new CXCognitiveNavigationPage(new VisionApiPage()));
 			Children.Add(new CXCognitiveNavigationPage(new EmotionApiPage()));;
+			Children.Add(new CXCognitiveNavigationPage(new FaceDetectionPage()));
 		}
 
 		public void NavigateAsync(AppPage menuId)

@@ -1,9 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Computas.CognitiveServices.Test.View.EmotionApiPage"
-             Title="Emotion API Test">
+			 Title="Face Detection"
+             x:Class="Computas.CognitiveServices.Test.View.FaceDetectionPage">
 	<ContentPage.Content>
 		<StackLayout>
 			<Button x:Name="TakePhoto" Text="Take Photo" Command="{Binding TakePhotoCommand}"
@@ -28,7 +27,7 @@
 						<Image Aspect="AspectFit" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
 							   x:Name="ImageChosen"
 							   Source="{Binding ImageFileSource}" />
-						<ListView x:Name="MyListView" ItemsSource="{Binding Scores}"
+						<ListView x:Name="MyListView" ItemsSource="{Binding Faces}"
 								  AbsoluteLayout.LayoutFlags="All"
 								  AbsoluteLayout.LayoutBounds="0,0,1,1"
 								  BackgroundColor="{DynamicResource TableBackgroundColor}">
@@ -38,21 +37,17 @@
 										<StackLayout>
 											<Label Text="{Binding FaceNumber}" TextColor="{DynamicResource Primary}"
 												   Style="{DynamicResource TitleStyle}" />
-											<Label Text="{Binding Anger}" TextColor="{DynamicResource LabelWeakColor}"
+											<Label Text="{Binding Age}" TextColor="{DynamicResource LabelWeakColor}"
 												   Style="{DynamicResource FontNormalText}" />
-											<Label Text="{Binding Contempt}" TextColor="{DynamicResource LabelWeakColor}"
+											<Label Text="{Binding FacialHair}" TextColor="{DynamicResource LabelWeakColor}"
 												   Style="{DynamicResource FontNormalText}" />
-											<Label Text="{Binding Disgust}" TextColor="{DynamicResource LabelWeakColor}"
+											<Label Text="{Binding Gender}" TextColor="{DynamicResource LabelWeakColor}"
 												   Style="{DynamicResource FontNormalText}" />
-											<Label Text="{Binding Fear}" TextColor="{DynamicResource LabelWeakColor}"
+											<Label Text="{Binding Glasses}" TextColor="{DynamicResource LabelWeakColor}"
 												   Style="{DynamicResource FontNormalText}" />
-											<Label Text="{Binding Happiness}" TextColor="{DynamicResource LabelWeakColor}"
+											<Label Text="{Binding HeadPose}" TextColor="{DynamicResource LabelWeakColor}"
 												   Style="{DynamicResource FontNormalText}" />
-											<Label Text="{Binding Neutral}" TextColor="{DynamicResource LabelWeakColor}"
-												   Style="{DynamicResource FontNormalText}" />
-											<Label Text="{Binding Sadness}" TextColor="{DynamicResource LabelWeakColor}"
-												   Style="{DynamicResource FontNormalText}" />
-											<Label Text="{Binding Surprise}" TextColor="{DynamicResource LabelWeakColor}"
+											<Label Text="{Binding Smile}" TextColor="{DynamicResource LabelWeakColor}"
 												   Style="{DynamicResource FontNormalText}" />
 										</StackLayout>
 									</ViewCell>
@@ -65,4 +60,6 @@
 
 		</StackLayout>
 	</ContentPage.Content>
+	
+	
 </ContentPage>

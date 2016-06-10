@@ -25,8 +25,8 @@ namespace Computas.CognitiveServices.Test.View
 			{
 				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Vision", Page = AppPage.Vision},
 				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Emotion", Page = AppPage.Emotion},
-				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Face", Page = AppPage.Emotion},
-				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Speech", Page = AppPage.Emotion}
+				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Face", Page = AppPage.Face},
+				new Computas.CognitiveServices.Test.Helper.MenuItem {Name = "Speech", Page = AppPage.Speech}
 			};
 
 			menu = new MenuPageUWP();
@@ -60,11 +60,14 @@ namespace Computas.CognitiveServices.Test.View
 				//only cache specific pages
 				switch (menuId)
 				{
-					case AppPage.Vision: //Feed
+					case AppPage.Vision:
 						pages.Add(menuId, new CXCognitiveNavigationPage(new VisionApiPage()));
 						break;
-					case AppPage.Emotion: //sessions
-						//pages.Add(menuId, new CXCognitiveNavigationPage(new SessionsPage()));
+					case AppPage.Emotion:
+						pages.Add(menuId, new CXCognitiveNavigationPage(new EmotionApiPage()));
+						break;
+					case AppPage.Face:
+						pages.Add(menuId, new CXCognitiveNavigationPage(new FaceDetectionPage()));
 						break;
 				}
 			}
