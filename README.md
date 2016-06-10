@@ -12,7 +12,7 @@ https://www.microsoft.com/cognitive-services
 
 
 
-![Alt text](Cognitive-Services-Computas-/Images/gbahij.jpg?raw=true "Title")
+![Alt text](https://github.com/kkho/Cognitive-Services-Computas-/blob/master/Images/gbahij.JPG?raw=true "Face Detection example")
 
 
 This project is used for future presentations when they update Xamarin.Forms and Cognitive Services that it can support several PCL apis.
