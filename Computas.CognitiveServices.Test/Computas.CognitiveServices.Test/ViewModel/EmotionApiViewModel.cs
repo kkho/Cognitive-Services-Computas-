@@ -59,7 +59,7 @@ namespace Computas.CognitiveServices.Test.ViewModel
 				var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
 				if (file != null)
 				{
-					imageFileSource = file.Path;
+					imageFileSource = ImageSource.FromStream(file.GetStream);
 					var emotionResult = await UploadAndDetectEmotions(file);
 					if (emotionResult != null)
 					{

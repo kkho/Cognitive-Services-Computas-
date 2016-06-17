@@ -70,6 +70,9 @@ namespace Computas.CognitiveServices.Test.Droid.Service
 				case Resource.Id.nav_emotion:
 					id = (int)AppPage.Emotion;
 					break;
+                case Resource.Id.nav_face:
+			        id = (int) AppPage.Face;
+			        break;
 			}
 			this.Element.OnNavigationItemSelected(new NavigationItemSelectedEventArgs
 			{

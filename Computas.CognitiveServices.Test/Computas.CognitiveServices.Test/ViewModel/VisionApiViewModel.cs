@@ -80,7 +80,8 @@ namespace Computas.CognitiveServices.Test.ViewModel
 			{
 				"Upload and Describe Image",
 				"Upload and Recognize Image (OCR)",
-				"Upload and Get Tags for Image"
+				"Upload and Get Tags for Image",
+                "Upload and analyze image"
 			};
 			MessagingService.Current.SendMessage<MessagingServiceChoice>(MessagingKeys.VisionMessage,
 				new MessagingServiceChoice
@@ -112,7 +113,7 @@ namespace Computas.CognitiveServices.Test.ViewModel
 					break;
 				case (int) VisionApiServices.RecognizeImage:
 					CultureInfo getCultureInfo = CultureInfo.CurrentCulture;
-					OcrResults ocrResults = await UploadAndRecognizeImage(tempFileWorking, getCultureInfo.Name);
+					OcrResults ocrResults = await UploadAndRecognizeImage(tempFileWorking, "no");
 					if (ocrResults != null && ocrResults.Regions != null &&
 					    ocrResults.Regions.Any())
 					{
@@ -131,7 +132,25 @@ namespace Computas.CognitiveServices.Test.ViewModel
 					}
 
 					break;
-				default:
+                case (int)VisionApiServices.GetAnalysis:
+			        var analyzeImage = await AnalyzeImage(tempFileWorking);
+			        if (analyzeImage != null)
+			        {
+			            var adult = analyzeImage.Adult != null
+			                ? $"Adult: {analyzeImage.Adult.AdultScore} score, " +
+			                  $"{analyzeImage.Adult.IsAdultContent} content," +
+			                  $" {analyzeImage.Adult.IsRacyContent} racy content, " +
+			                  $"{analyzeImage.Adult.RacyScore} score\n\n"
+			                : "no adult content\n";
+			            var description = analyzeImage.Description != null
+			                ? $"Description: TAGS: {WriteTagResultsDescription(analyzeImage.Description.Tags)}\n" +
+			                  $"CAPTION: {analyzeImage.Description.Captions}\n" +
+			                  $"Color: {analyzeImage.Color}\n":
+                              "no description\n";
+			            AnalysisResult = adult + description;
+			        }
+                    break;
+                default:
 					break;
 			}
 
@@ -150,7 +169,21 @@ namespace Computas.CognitiveServices.Test.ViewModel
 			IsBusy = false;
 		}
 
-		private void FillOCRInformation(IEnumerable<Region> regions)
+        private string WriteTagResultsDescription(string []tags)
+        {
+            string formattedTags = string.Empty;
+            var results = tags;
+            for (int i = 0; i < results.Length; i++)
+            {
+                formattedTags += results[i];
+                if (i != tags.Count() - 1)
+                    formattedTags += ", ";
+            }
+
+            return formattedTags;
+        }
+
+        private void FillOCRInformation(IEnumerable<Region> regions)
 		{
 			string words = string.Empty;
 			foreach (var region in regions)
@@ -185,7 +218,20 @@ namespace Computas.CognitiveServices.Test.ViewModel
 			}
 		}
 
-		private void WriteCaptionResult()
+	    private string _analysisResult;
+
+	    public string AnalysisResult
+	    {
+	        get { return _analysisResult; }
+	        set
+	        {
+	            _analysisResult = value;
+	            OnPropertyChanged();
+	        }
+	    }
+
+
+        private void WriteCaptionResult()
 		{
 			string formattedCaption = string.Empty;
 			var results = CaptionCollection.ToArray();
@@ -239,20 +285,23 @@ namespace Computas.CognitiveServices.Test.ViewModel
 
 		private async Task<OcrResults> UploadAndRecognizeImage(MediaFile file, string langCode)
 		{
-			OcrResults ocrResult = await visionServiceClient.RecognizeTextAsync(file.GetStream(), langCode);
+			OcrResults ocrResult = await visionServiceClient.RecognizeTextAsync(file.GetStream());
 			return ocrResult;
 		}
 
-		private async Task<AnalysisInDomainResult> UploadAndAnalyzeInDomainImage(MediaFile file, Model domainModel)
+		private async Task<AnalysisInDomainResult> UploadAndAnalyzeImage(MediaFile file, Model domainModel)
 		{
 			AnalysisInDomainResult analysisResult =
 				await visionServiceClient.AnalyzeImageInDomainAsync(file.GetStream(), domainModel);
 			return analysisResult;
 		}
 
-		private async Task<AnalysisInDomainResult> AnalyzeInDomainUrl(string imageUrl, Model domainModel)
+		private async Task<AnalysisResult> AnalyzeImage(MediaFile file)
 		{
-			AnalysisInDomainResult analysisResult = await visionServiceClient.AnalyzeImageInDomainAsync(imageUrl, domainModel);
+			AnalysisResult analysisResult = await visionServiceClient.AnalyzeImageAsync(file.GetStream(), new List<VisualFeature>()
+			{
+			    VisualFeature.Adult, VisualFeature.Categories, VisualFeature.Color, VisualFeature.Description, VisualFeature.Faces, VisualFeature.ImageType
+			});
 			return analysisResult;
 		}
 

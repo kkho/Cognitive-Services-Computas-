@@ -9,12 +9,14 @@ namespace Computas.CognitiveServices.Test
 {
     public partial class App : Application
     {
-			    public static string VisionApiKey = "OWN API KEY";
-	    public static string EmotionApiKey = "OWN API KEY";
-	    public static string SpeechApiKey = "OWN API KEY";
-	    public static string FaceApiKey = "OWN API KEY";
 
-		public static App current;
+
+        public static string VisionApiKey = "OWN KEY";
+        public static string EmotionApiKey = "OWN KEY";
+        public static string SpeechApiKey = "OWN KEY";
+        public static string FaceApiKey = "OWN KEY";
+
+        public static App current;
 
 		public App()
         {
@@ -49,10 +51,13 @@ namespace Computas.CognitiveServices.Test
 
 		public INavigation Navigation { get; set; }
 
-		protected override void OnSleep()
+        protected override void OnResume()
+        {
+            base.OnResume();
+        }
+
+        protected override void OnSleep()
 		{
-			MessagingService.Current.Unsubscribe<MessagingServiceChoice>(MessagingKeys.VisionMessage);
-			MessagingService.Current.Unsubscribe<MessagingServiceAlert>(MessagingKeys.CognitiveServiceErrorMessage);
 		}
 
 	}

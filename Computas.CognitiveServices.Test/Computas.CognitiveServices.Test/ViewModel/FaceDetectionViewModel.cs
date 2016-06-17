@@ -143,7 +143,8 @@ namespace Computas.CognitiveServices.Test.ViewModel
 
 		private async Task<Face[]> UploadAndDetectFaces(MediaFile file)
 		{
-			var faces = await faceServiceClient.DetectAsync(file.GetStream(), true, true, new FaceAttributeType[] { FaceAttributeType.Gender, FaceAttributeType.Age, FaceAttributeType.FacialHair, FaceAttributeType.HeadPose,
+			var faces = await faceServiceClient.DetectAsync(file.GetStream(), true, true, new FaceAttributeType[] {
+                FaceAttributeType.Gender, FaceAttributeType.Age, FaceAttributeType.FacialHair, FaceAttributeType.HeadPose,
 				FaceAttributeType.Smile, FaceAttributeType.Glasses });
 
 			return faces;

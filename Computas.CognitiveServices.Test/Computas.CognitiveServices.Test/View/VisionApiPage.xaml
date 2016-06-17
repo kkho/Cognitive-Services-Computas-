@@ -5,34 +5,40 @@
              x:Class="Computas.CognitiveServices.Test.View.VisionApiPage"
              Title="Vision API Test"
              BackgroundColor="{DynamicResource WindowBackground}">
-	<ContentPage.Content>
-		<StackLayout>
-			<Button x:Name="TakePhoto" Text="Take Photo" Command="{Binding TakePhotoCommand}"
-			        BackgroundColor="{DynamicResource Accent}"
-			        TextColor="White" />
-			<Button x:Name="PickPhoto" Text="Pick Photo" Command="{Binding PickPhotoCommand}"
-			        BackgroundColor="{DynamicResource Accent}"
-			        TextColor="White" />
-				<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}">
-					<ActivityIndicator.Color>
-						<OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
-					</ActivityIndicator.Color>
-				</ActivityIndicator>
-				<Label Text="Loading Result"
-				       IsVisible="{Binding IsBusy}"
-				       HorizontalOptions="Center" />
-				<Label x:Name="DescriptionResult" Text="{Binding VisionMainResults}"
-				       Margin="16"
-				       FontSize="Large"
-				       HorizontalOptions="Start"
-				       VerticalOptions="Start"
-				       TextColor="{DynamicResource Accent}" />
-				<Label x:Name="TagResult" Text="{Binding TagResults}"
-				       Margin="16"
-				       FontSize="Large"
-				       HorizontalOptions="Start"
-				       VerticalOptions="Start"
-				       TextColor="{DynamicResource Accent}" />
-		</StackLayout>
-	</ContentPage.Content>
+    <ContentPage.Content>
+        <StackLayout>
+            <Button x:Name="TakePhoto" Text="Take Photo" Command="{Binding TakePhotoCommand}"
+                    BackgroundColor="{DynamicResource Accent}"
+                    TextColor="White" />
+            <Button x:Name="PickPhoto" Text="Pick Photo" Command="{Binding PickPhotoCommand}"
+                    BackgroundColor="{DynamicResource Accent}"
+                    TextColor="White" />
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator.Color>
+                    <OnPlatform x:TypeArguments="Color" Android="{StaticResource Accent}" />
+                </ActivityIndicator.Color>
+            </ActivityIndicator>
+            <Label Text="Loading Result"
+                   IsVisible="{Binding IsBusy}"
+                   HorizontalOptions="Center" />
+            <Label x:Name="DescriptionResult" Text="{Binding VisionMainResults}"
+                   Margin="16"
+                   FontSize="Large"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start"
+                   TextColor="{DynamicResource Accent}" />
+            <Label x:Name="TagResult" Text="{Binding TagResults}"
+                   Margin="16"
+                   FontSize="Large"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start"
+                   TextColor="{DynamicResource Accent}" />
+            <Label x:Name="AnalysisResult" Text="{Binding AnalysisResult}"
+                   Margin="16"
+                   FontSize="Large"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start"
+                   TextColor="{DynamicResource Accent}" />
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>
