@@ -11,10 +11,10 @@ namespace Computas.CognitiveServices.Test
     {
 
 
-        public static string VisionApiKey = "OWN KEY";
-        public static string EmotionApiKey = "OWN KEY";
-        public static string SpeechApiKey = "OWN KEY";
-        public static string FaceApiKey = "OWN KEY";
+        public static string VisionApiKey = "f1faa5e0029b49dda3fa0cfbc124b017";
+        public static string EmotionApiKey = "1c4ae3bd14e24cc292bdb7de90913686";
+        public static string SpeechApiKey = "38044ebb3282412292c5de88e17a0e8d";
+        public static string FaceApiKey = "a1bba8636fc94e9b8199c002a61f8fad";
 
         public static App current;
 
